@@ -99,3 +99,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Image files, reduce space
+*.jpg
+*.png
