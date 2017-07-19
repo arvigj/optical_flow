@@ -34,7 +34,7 @@ def gabor(x_range, y_range, sigma, theta):
     return psi_array
 
 angles = [0,np.pi/6,np.pi/4,np.pi/3,np.pi/2]
-sigmas = [1]
+sigmas = [2]
 
 wavelets = map(lambda x: gabor(13,13,x[0],x[1]),itertools.product(sigmas,angles))
 #plt.subplot(121)
@@ -53,7 +53,8 @@ while(True):
     cap = cv2.cvtColor(cap,cv2.COLOR_BGR2GRAY)
     edges.real = np.array(map(lambda data: cv2.filter2D(data[0],cv2.CV_64F,data[1].imag),zip(itertools.repeat(cap),wavelets)))
     edges.imag = np.array(map(lambda data: cv2.filter2D(data[0],cv2.CV_64F,data[1].imag),zip(itertools.repeat(cap),wavelets)))
-    final = np.amax(np.abs(edges),axis=0).astype(np.uint8)
+    final = np.amax(np.abs(edges),axis=0)
+    final = (255*(final/np.amax(final))).astype(np.uint8)
     cv2.imshow("image",final)
     if cv2.waitKey(1) == ord('q'):
         break
